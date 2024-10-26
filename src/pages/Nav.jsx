@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   AppBar,
   Toolbar,
@@ -15,17 +15,17 @@ import {
   Grid,
   Divider,
   Button,
-} from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+} from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 500,
-  bgcolor: 'background.paper',
-  borderRadius: '8px',
+  bgcolor: "background.paper",
+  borderRadius: "8px",
   boxShadow: 24,
   p: 4,
 };
@@ -37,7 +37,7 @@ const Nav = ({ cartCount, test }) => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="sticky">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             MyShop
@@ -58,7 +58,12 @@ const Nav = ({ cartCount, test }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom>
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            gutterBottom
+          >
             Your Cart Items
           </Typography>
 
@@ -74,18 +79,22 @@ const Nav = ({ cartCount, test }) => {
                           <Avatar
                             variant="rounded"
                             sx={{ width: 64, height: 64 }}
-                            src={item?.img || '/default-product.png'} // replace with the actual product image URL
+                            src={item?.img || "/default-product.png"} // replace with the actual product image URL
                           />
                         </Grid>
                         <Grid item xs={6}>
                           <ListItemText
                             primary={item.title}
                             secondary={`Price: $${item.price} | Quantity: ${item.count}`}
-                            primaryTypographyProps={{ fontWeight: 'bold' }}
+                            primaryTypographyProps={{ fontWeight: "bold" }}
                           />
                         </Grid>
                         <Grid item xs={3}>
-                          <Typography variant="body2" align="right" fontWeight="bold">
+                          <Typography
+                            variant="body2"
+                            align="right"
+                            fontWeight="bold"
+                          >
                             Total: ${(item.price * item.count).toFixed(2)}
                           </Typography>
                         </Grid>
