@@ -1,36 +1,38 @@
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  CardActions,
-  Button,
-} from "@mui/material";
+import React from 'react';
+import { Card, CardContent, CardMedia, Typography, Button } from '@mui/material';
 
-const ProductCard = ({ title, img, price, addToCart }) => {
+const ProductCard = ({ id, title, img, price, addToCart, removeToCart }) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card>
       <CardMedia
         component="img"
+        alt={title}
         height="140"
-        image={img} // Image URL
-        alt={title} // Alt text for the image
+        image={img}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {title} {/* Title of the product */}
+          {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Price: ${price} {/* Price of the product */}
+          ${price}
         </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Buy Now</Button>
-        <Button size="small" onClick={addToCart}>
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={() => addToCart(id, title, price,img)}  // Pass id, title, and price to addToCart
+        >
           Add to Cart
         </Button>
-      </CardActions>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => removeToCart(id)}  // Pass only id to removeToCart
+          style={{ marginLeft: '10px' }}
+        >
+          Remove from Cart
+        </Button>
+      </CardContent>
     </Card>
   );
 };
