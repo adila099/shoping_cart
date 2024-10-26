@@ -20,7 +20,7 @@ const ProductCard = ({ id, title, img, price, addToCart, removeToCart }) => {
         <Button
           variant="outlined"
           color="primary"
-          onClick={() => addToCart(id, title, price,img)}  // Pass id, title, and price to addToCart
+          onClick={() => addToCart(id, title, price, img)}  // Pass id, title, and price to addToCart
         >
           Add to Cart
         </Button>

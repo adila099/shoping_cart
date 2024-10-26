@@ -3,15 +3,25 @@ import Nav from "./Nav";
 import axios from "axios";
 import ProductCard from "../componets/ProductCard";
 import { Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { addRequestSuccess, removeRequestSuccess } from "../redux/action/cartAction";
 
-const BuyOnline = ({ addToCart, removeToCart }) => {
+const BuyOnline = () => {
+  const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
+  
+  const addToCart = (id, title, price, img) => {
+    dispatch(addRequestSuccess({ id, title, price, img, count: 1 }));
+  };
+  const removeToCart = (id) => {
+    dispatch(removeRequestSuccess(id));
+  };
+
 
   useEffect(() => {
     axios
       .get("https://fakestoreapi.com/products")
       .then((response) => {
-        console.log(response.data);
         setProducts(response.data);
       })
       .catch((error) => {

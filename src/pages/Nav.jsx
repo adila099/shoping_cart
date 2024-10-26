@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   AppBar,
   Toolbar,
@@ -10,13 +10,15 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemAvatar,
   Avatar,
   Grid,
   Divider,
   Button,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCartSuccess } from "../redux/action/cartAction";
 
 const style = {
   position: "absolute",
@@ -30,21 +32,41 @@ const style = {
   p: 4,
 };
 
-const Nav = ({ cartCount, test }) => {
+const Nav = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const { cart, totalCount } = useSelector((state) => state.cart)
+
+  const removeItems = () => {
+    dispatch(clearCartSuccess());
+  };
+
+
+
 
   return (
     <>
       <AppBar position="sticky">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} >
             MyShop
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate('/todo')}>
+            Todu
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate('/counter')}>
+            Counter
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate('/buy')}>
+            Shopping
           </Typography>
           <IconButton color="inherit" edge="end" onClick={handleOpen}>
             {/* Badge to show the cart count */}
-            <Badge badgeContent={cartCount} color="error">
+            <Badge badgeContent={totalCount || 0} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
@@ -57,20 +79,15 @@ const Nav = ({ cartCount, test }) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            gutterBottom
-          >
+        <Box sx={{ ...style, width: 500, maxHeight: '80vh', overflowY: 'auto', p: 3, borderRadius: 2 }}>
+          <Typography id="modal-modal-title" variant="h6" component="h2" gutterBottom>
             Your Cart Items
           </Typography>
 
-          {test?.length > 0 ? (
+          {cart?.length > 0 ? (
             <>
-              <List>
-                {test.map((item) => (
+              <List sx={{ maxHeight: '60vh', overflowY: 'auto', pr: 1 }}>
+                {cart?.map((item) => (
                   <React.Fragment key={item.id}>
                     <ListItem>
                       <Grid container alignItems="center" spacing={2}>
@@ -78,7 +95,7 @@ const Nav = ({ cartCount, test }) => {
                           {/* Display a placeholder or product image */}
                           <Avatar
                             variant="rounded"
-                            sx={{ width: 64, height: 64 }}
+                            sx={{ width: 64, height: 64, borderRadius: 1 }}
                             src={item?.img || "/default-product.png"} // replace with the actual product image URL
                           />
                         </Grid>
@@ -87,14 +104,11 @@ const Nav = ({ cartCount, test }) => {
                             primary={item.title}
                             secondary={`Price: $${item.price} | Quantity: ${item.count}`}
                             primaryTypographyProps={{ fontWeight: "bold" }}
+                            secondaryTypographyProps={{ color: "text.secondary" }}
                           />
                         </Grid>
                         <Grid item xs={3}>
-                          <Typography
-                            variant="body2"
-                            align="right"
-                            fontWeight="bold"
-                          >
+                          <Typography variant="body2" align="right" fontWeight="bold">
                             Total: ${(item.price * item.count).toFixed(2)}
                           </Typography>
                         </Grid>
@@ -106,18 +120,19 @@ const Nav = ({ cartCount, test }) => {
               </List>
 
               <Box sx={{ mt: 2 }}>
-                <Button variant="contained" color="primary" fullWidth>
-                  Proceed to Checkout
+                <Button variant="contained" color="secondary" fullWidth onClick={removeItems} sx={{ py: 1.5 }}>
+                  Empty Cart 🗑️
                 </Button>
               </Box>
             </>
           ) : (
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            <Typography id="modal-modal-description" sx={{ mt: 2, textAlign: 'center' }}>
               Your cart is empty.
             </Typography>
           )}
         </Box>
       </Modal>
+
     </>
   );
 };
