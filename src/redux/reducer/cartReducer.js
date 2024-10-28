@@ -1,7 +1,7 @@
 import { ADD_CART_SUCCESS, REMOVE_CART_SUCCESS, CLEAR_CART_SUCCESS } from "../action/cartAction";
 
 const initialState = {
-  cart: [],
+  cart: [], // [{id:3 ,count:3} , {id:1 , count:9}]
   totalCount: 0,
   error: null,
 };
@@ -23,14 +23,12 @@ const cartReducer = (state = initialState, action) => {
           ...state,
           cart: updatedCart,
           totalCount: Number(state.totalCount) + 1,
-          error: null,
         };
       } else {
         return {
           ...state,
           cart: [...currentCart, newItem],
           totalCount: Number(state.totalCount) + 1,
-          error: null,
         };
       }
 
@@ -73,7 +71,6 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         cart: [],
         totalCount: 0,
-        error: null,
       };
 
     default:

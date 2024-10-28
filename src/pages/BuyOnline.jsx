@@ -9,7 +9,10 @@ import { addRequestSuccess, removeRequestSuccess } from "../redux/action/cartAct
 const BuyOnline = () => {
   const dispatch = useDispatch();
   const [products, setProducts] = useState([]);
-  
+
+  // useDispatch    => redux main data save krny k ly
+  // useSelector    => redux sy any data get
+
   const addToCart = (id, title, price, img) => {
     dispatch(addRequestSuccess({ id, title, price, img, count: 1 }));
   };
