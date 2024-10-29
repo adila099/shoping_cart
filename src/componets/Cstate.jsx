@@ -1,23 +1,29 @@
 import React, { useState } from "react";
 import Counter from "../pages/Counter";
+import { useDispatch, useSelector } from "react-redux";
+import { addCountSuccess, clearCountSuccess, removeCountSuccess } from "../redux/action/countAction";
 
 const Cstate = () => {
-  const [counter, setCounter] = useState(0);
+  const dispatch = useDispatch();
+  const { totalCount } = useSelector((state) => state.counter)
+
   const handlePlus = () => {
-    setCounter(counter + 1);
+    dispatch(addCountSuccess(1));
   };
+
+
   const handleMinus = () => {
-    if (counter > 0) {
-      setCounter(counter - 1);
+    if (totalCount > 0) {
+      dispatch(removeCountSuccess());
     }
   };
 
-  const reset = () =>{
-    setCounter(0)
+  const reset = () => {
+    dispatch(clearCountSuccess());
   }
   return (
     <div>
-      <Counter minus={handleMinus} plus={handlePlus} counter={counter} reset = {reset}/>
+      <Counter minus={handleMinus} plus={handlePlus} counter={totalCount} reset={reset} />
     </div>
   );
 };
