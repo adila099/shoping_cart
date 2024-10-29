@@ -16,7 +16,7 @@ import {
   Button,
 } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearCartSuccess } from "../redux/action/cartAction";
 
@@ -35,6 +35,7 @@ const style = {
 const Nav = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location=useLocation()
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -64,12 +65,15 @@ const Nav = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => navigate('/buy')}>
             Shopping
           </Typography>
-          <IconButton color="inherit" edge="end" onClick={handleOpen}>
-            {/* Badge to show the cart count */}
-            <Badge badgeContent={totalCount || 0} color="error">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
+          {location.pathname==="/buy" && (
+             <IconButton color="inherit" edge="end" onClick={handleOpen}>
+             {/* Badge to show the cart count */}
+             <Badge badgeContent={totalCount || 0} color="error">
+               <ShoppingCartIcon />
+             </Badge>
+           </IconButton>
+           )}
+         
         </Toolbar>
       </AppBar>
 
