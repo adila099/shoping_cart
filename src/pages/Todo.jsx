@@ -1,9 +1,16 @@
-
-
 import { Input } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addRequestSuccess,
+  removeRequestSuccess,
+  updateTodoSuccess,
+} from "../redux/action/todoAction";
 
 const Todo = () => {
+  const dispatch = useDispatch();
+  const { todoData } = useSelector((state) => state.todo);
+
   const [inputValue, setInputValue] = useState("");
   const [data, setData] = useState([]);
   const [isEdit, setIsEdit] = useState(false); // Only true or false to track edit mode
@@ -14,36 +21,38 @@ const Todo = () => {
   };
 
   const onClickAdd = () => {
-    if (inputValue.trim() !== "") {
-      setData([...data, inputValue]);
-      setInputValue("");
-    } else {
-      alert("Please fill the form");
-    }
+    dispatch(addRequestSuccess(inputValue));
+    setInputValue("");
+    console.log(todoData, "dataaaa");
+    setData(todoData);
+    // if (inputValue.trim() !== "") {
+    //   setData([...data, inputValue]);
+
+    // } else {
+    //   alert("Please fill the form");
+    // }
   };
 
   const onDelete = (indexToDelete) => {
-    const updatedData = data.filter((_, index) => index !== indexToDelete);
-    setData(updatedData);
+    dispatch(removeRequestSuccess(indexToDelete));
+    // const updatedData = data.filter((_, index) => index !== indexToDelete);
+    // setData(updatedData);
   };
 
   const onEdit = (indexToEdit) => {
+    setEditIndex(indexToEdit);
     setIsEdit(true);
-    setInputValue(data[indexToEdit]);
-    setEditIndex(indexToEdit); 
+    setInputValue(todoData[indexToEdit]);
   };
 
   const onUpdate = () => {
-    if (inputValue.trim() !== "") {
-      const updatedData = data.map((item, index) =>
-        index === editIndex ? inputValue : item
-      );
-      setData(updatedData);
+    if (editIndex !== null) {
+      dispatch(updateTodoSuccess(editIndex, inputValue));
       setInputValue("");
       setIsEdit(false);
       setEditIndex(null);
     } else {
-      alert("Please fill the form");
+      console.log("editIndex is null");
     }
   };
 
@@ -73,7 +82,7 @@ const Todo = () => {
           </tr>
         </thead>
         <tbody>
-          {data?.map((item, index) => (
+          {todoData?.map((item, index) => (
             <tr key={index}>
               <td>{item}</td>
               <td>
