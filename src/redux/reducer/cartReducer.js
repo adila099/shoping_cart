@@ -1,7 +1,8 @@
-import { ADD_CART_SUCCESS, REMOVE_CART_SUCCESS, CLEAR_CART_SUCCESS } from "../action/cartAction";
+import { ADD_CART_SUCCESS, REMOVE_CART_SUCCESS, CLEAR_CART_SUCCESS, DATA_SUCCESS } from "../action/cartAction";
 
 const initialState = {
-  cart: [], // [{id:3 ,count:3} , {id:1 , count:9}]
+  cart: [],
+  shop: [],
   totalCount: 0,
   error: null,
 };
@@ -71,6 +72,14 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         cart: [],
         totalCount: 0,
+      };
+
+
+
+    case DATA_SUCCESS:
+      return {
+        ...state,
+        shop: action.payload
       };
 
     default:
