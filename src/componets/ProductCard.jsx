@@ -38,7 +38,8 @@ const ProductCard = ({
 
   // Handle updating the product
   const handleUpdate = (id) => {
-    dispatch(updateProductRequest(id, editTitle, editPrice, editDescription));
+    dispatch(updateProductRequest({ id, editTitle, editPrice, editDescription }));
+    setOpen(false)
   };
 
   return (
@@ -122,7 +123,7 @@ const ProductCard = ({
           <Button onClick={handleClose} color="secondary">
             Cancel
           </Button>
-          <Button onClick={handleUpdate} color="primary">
+          <Button onClick={() => handleUpdate(id)} color="primary">
             Update
           </Button>
         </DialogActions>

@@ -1,8 +1,8 @@
 // userSaga.js
 import { takeLatest, call, put } from "redux-saga/effects";
 
-import { DATA_REQUEST, dataSuccess } from "../action/cartAction";
-import { dataRequest } from "../services/cartService";
+import { DATA_REQUEST, dataSuccess, UPDATE_PRODUCT_REQUEST, updateProductFailure, updateProductSuccess } from "../action/cartAction";
+import { dataRequest, productDelete, productUpdate } from "../services/cartService";
 
 import { DELETE_PRODUCT_REQUEST } from "../action/cartAction";
 import {
@@ -11,7 +11,7 @@ import {
 } from "../action/cartAction";
 import API from "../services/base.service";
 
-// Login
+// get item
 function* dataSaga1() {
   try {
     const data = yield dataRequest();
@@ -22,36 +22,30 @@ function* dataSaga1() {
 }
 
 // for delete data
-
-const deleteProductApi = (productId) => API.delete(`/products/${productId}`);
-
-const updateProductApi = (id) => API.put(`/products/${id}`);
-
 function* deleteProductSaga(action) {
   try {
-    yield call(deleteProductApi, action.payload); // payload is the productId
-    yield put(deleteProductSuccess(action.payload)); // Dispatch success action with productId
+    const delItem = yield productDelete(action.payload);
+    yield put(deleteProductSuccess(delItem?.data));
   } catch (error) {
-    yield put(deleteProductFailure(error.message)); // Dispatch failure action with error message
+    yield put(deleteProductFailure(error.message));
   }
 }
 
-// function* updateProductSaga(action) {
-//   try {
-//     yield call(updateProductApi, action.payload); 
-//     yield put(updateProductSuccess(action.payload)); 
-//   } catch (error) {
-//     yield put(updateProductFailure(error.message)); 
-//   }
-// }
+function* updateProductSaga(action) {
+  try {
+    const item = yield productUpdate(action.payload);
+    yield put(updateProductSuccess(item?.data)); 
+  } catch (error) {
+    yield put(updateProductFailure(error.message));
+  }
+}
 ////////
 
 function* dataSaga() {
   yield takeLatest(DATA_REQUEST, dataSaga1);
+  yield takeLatest(DELETE_PRODUCT_REQUEST, deleteProductSaga);
+  yield takeLatest(UPDATE_PRODUCT_REQUEST, updateProductSaga);
 }
 
-export function* watchDeleteProduct() {
-  yield takeLatest(DELETE_PRODUCT_REQUEST, deleteProductSaga);
-}
 
 export default dataSaga;

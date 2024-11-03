@@ -1,4 +1,4 @@
-import dataSaga, { watchDeleteProduct } from "./cartSaga";
+import dataSaga from "./cartSaga";
 import userSaga from "./userSaga";
 import { all, spawn } from "redux-saga/effects";
 
@@ -7,7 +7,7 @@ export default function* rootSaga() {
   yield all([
     spawn(userSaga),
     spawn(dataSaga),
-    spawn(watchDeleteProduct)
+    spawn(dataSaga)
   ]);
 }
 

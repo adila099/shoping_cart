@@ -16,7 +16,6 @@ const BuyOnline = () => {
   const { shop } = useSelector((state) => state.cart);
 
   const handleDelete = (productId) => {
-    console.log(productId, "wwee");
     dispatch(deleteProductRequest(productId));
   };
 
@@ -36,9 +35,7 @@ const BuyOnline = () => {
   };
 
   useEffect(() => {
-    // if (!shop?.length) {
     dispatch(dataRequest());
-    // }
   }, []);
 
   return (

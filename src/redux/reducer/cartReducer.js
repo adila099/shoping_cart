@@ -87,16 +87,10 @@ const cartReducer = (state = initialState, action) => {
         shop: action.payload,
       };
 
-    case DELETE_PRODUCT_REQUEST:
-      return {
-        ...state,
-        error: null,
-      };
-
     case DELETE_PRODUCT_SUCCESS:
       return {
         ...state,
-        shop: state.shop.filter((shop) => shop.id !== action.payload), // Filter out deleted product
+        shop: state.shop.filter((shop) => shop.id !== action.payload?.id),
       };
 
     case DELETE_PRODUCT_FAILURE:
@@ -105,6 +99,18 @@ const cartReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+
+    case UPDATE_PRODUCT_SUCCESS:
+      const updatedProduct = action.payload;
+      const updatedShop = state.shop.map((item) =>
+        item.id === updatedProduct.id ? { ...item, ...updatedProduct } : item
+      );
+
+      
+      return {
+        ...state,
+        shop: updatedShop,
+      };
     default:
       return state;
   }

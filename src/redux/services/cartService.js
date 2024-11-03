@@ -9,11 +9,11 @@ export const dataRequest = async () => {
   return response;
 };
 
-export const productDelete = async () => {
-  const response = await API.delete(`/products/{id}`);
+export const productDelete = async (payload) => {
+  const response = await API.delete(`/products/${payload}`);
   return response;
 };
-export const productUpdate = async () => {
-    const response = await API.put(`/products/{id}`);
-    return response;
-  };
+export const productUpdate = async (payload) => {
+  const response = await API.put(`/products/${payload?.id}`, { title: payload?.editTitle, price: payload?.editPrice, description: payload?.editDescription });
+  return response;
+};

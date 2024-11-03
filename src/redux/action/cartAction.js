@@ -56,10 +56,11 @@ export const deleteProductFailure = (error) => ({
   payload: error,
 });
 
-export const updateProductRequest = (payload) => ({
-  type: UPDATE_PRODUCT_REQUEST,
-  payload,
-});
+export const updateProductRequest = (payload) => (
+  {
+    type: UPDATE_PRODUCT_REQUEST,
+    payload,
+  });
 export const updateProductSuccess = (payload) => ({
   type: UPDATE_PRODUCT_SUCCESS,
   payload,
