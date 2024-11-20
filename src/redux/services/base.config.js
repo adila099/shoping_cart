@@ -1,4 +1,4 @@
-export const BASE_URL_API = 'https://6710c852a85f4164ef2f4661.mockapi.io/sapphire';
+export const BASE_URL_API = 'https://fakestoreapi.com';
 
 console.log("BASE API ====", `${BASE_URL_API}`);
 
